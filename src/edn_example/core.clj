@@ -17,17 +17,38 @@
     ;; yep, converting a vector to EDN is that simple
     (str sample-vector))
 
+;;lets get more fancy, and convert a defrecord to and from EDN
+(defrecord Goat [stuff things]
+    Object
+    ;; We overwrite toString for this defrecord to keep up with (str ...) being
+    ;; able to output EDN directly.
+    (toString [this] (str "#edn-example.Goat" (into {} this))))
+
+(def sample-goat (->Goat "I love Goats", "Goats are awesome"))
+
+(defn convert-sample-goat-to-edn
+    "Converting a Goat to EDN"
+    []
+    (str sample-goat))
+
+(defn fail-converting-edn-to-goat
+    "This won't work, as the reader won't recognise the #edn.example.Goat tag"
+    []
+    (try
+        (edn/read-string (convert-sample-goat-to-edn))
+        (catch Exception e (str "Caught Exception: " (.getMessage e)))))
+
 (defn -main
     "Show off the EDN examples"
     [& args]
-    (print "Let's convert a map to EDN: ")
-    (println (convert-sample-map-to-edn))
+    (println "Let's convert a map to EDN: " (convert-sample-map-to-edn))
     (print "Now let's covert the map back: ")
     (println (edn/read-string (convert-sample-map-to-edn)))
-    (print "Let's convert a vector to EDN: ")
-    (println (convert-sample-vector-to-edn))
+    (println "Let's convert a vector to EDN: " (convert-sample-vector-to-edn))
     (print "Now let's covert the vector back: ")
-    (println (edn/read-string (convert-sample-vector-to-edn))))
+    (println (edn/read-string (convert-sample-vector-to-edn)))
+    (println "Let's convert our defrecord Goat into EDN: " (convert-sample-goat-to-edn))
+    (println "Let's try converting a Goat back to EDN, but it will fail: " (fail-converting-edn-to-goat)))
 
 
 
