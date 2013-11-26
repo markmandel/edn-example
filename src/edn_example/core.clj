@@ -22,7 +22,7 @@
     Object
     ;; We overwrite toString for this defrecord to keep up with (str ...) being
     ;; able to output EDN directly.
-    ;; We will make '#edn-example.Goat' our tag, and then use the stardard toString
+    ;; We will make '#edn-example/Goat' our tag, and then use the standard toString
     ;; for a Clojure map to do the rest.
     (toString [this] (str "#edn-example/Goat " (into {} this))))
 
@@ -55,11 +55,9 @@
     "Show off the EDN examples"
     [& args]
     (println "Let's convert a map to EDN: " (convert-sample-map-to-edn))
-    (print "Now let's covert the map back: ")
-    (println (edn/read-string (convert-sample-map-to-edn)))
+    (println "Now let's covert the map back: " (edn/read-string (convert-sample-map-to-edn)))
     (println "Let's convert a vector to EDN: " (convert-sample-vector-to-edn))
-    (print "Now let's covert the vector back: ")
-    (println (edn/read-string (convert-sample-vector-to-edn)))
+    (println "Now let's covert the vector back: " (edn/read-string (convert-sample-vector-to-edn)))
     (println "Let's convert our defrecord Goat into EDN: " (convert-sample-goat-to-edn))
     (println "Let's try converting EDN back to a Goat, but it will fail: " (fail-converting-edn-to-goat))
     (println "Let's try converting EDN back to a Goat: " (convert-edn-to-goat)))
