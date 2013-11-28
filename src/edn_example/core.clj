@@ -58,7 +58,7 @@
 (defn convert-alt-edn-to-goat
     "Convert the alternative edn format for a goat back to a Goat"
     []
-    (edn/read-string {:readers {'edn-example/Alt.Goat convert-alt-goat-edn}} (alternative-edn-for-goat sample-goat))) ""
+    (edn/read-string {:readers {'edn-example/Alt.Goat convert-alt-goat-edn}} (alternative-edn-for-goat sample-goat)))
 
 (defn default-reader
     "A default reader, for when we don't know what's coming in."
@@ -81,7 +81,7 @@
     (println "Let's try converting EDN back to a Goat, but it will fail: " (fail-converting-edn-to-goat))
     (println "Let's try converting EDN back to a Goat: " (convert-edn-to-goat))
     (println "Lets convert our Goat to our custom EDN format: " (alternative-edn-for-goat sample-goat))
-    (println "Lets our custom EDN back into a Goat: " (convert-alt-edn-to-goat))
+    (println "Lets convert our custom EDN back into a Goat: " (convert-alt-edn-to-goat))
     (println "Let's handle some unknown EDN: " (convert-unknown-edn)))
 
 
