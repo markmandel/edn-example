@@ -48,7 +48,17 @@
 (defn alternative-edn-for-goat
     "Creates a different edn format for the goat. Flattens the goat map into a sequence of keys and values"
     [^Goat goat]
-    (prn-str "#edn-example/Alt.Goat" (mapcat identity goat)))
+    (str "#edn-example/Alt.Goat" (prn-str (mapcat identity goat))))
+
+(defn convert-alt-goat-edn
+    "Takes the altenative EDN and converts it into a Goat"
+    [elems]
+    (map->Goat (apply hash-map elems)))
+
+(defn convert-alt-edn-to-goat
+    "Convert the alternative edn format for a goat back to a Goat"
+    []
+    (edn/read-string {:readers {'edn-example/Alt.Goat convert-alt-goat-edn}} (alternative-edn-for-goat sample-goat)))
 
 (defn -main
     "Show off the EDN examples"
@@ -60,7 +70,8 @@
     (println "Let's convert our defrecord Goat into EDN: " (convert-sample-goat-to-edn))
     (println "Let's try converting EDN back to a Goat, but it will fail: " (fail-converting-edn-to-goat))
     (println "Let's try converting EDN back to a Goat: " (convert-edn-to-goat))
-    (println "Lets convert our Goat to our custom EDN format: " (alternative-edn-for-goat sample-goat)))
+    (println "Lets convert our Goat to our custom EDN format: " (alternative-edn-for-goat sample-goat))
+    (println "Lets our custom EDN back into a Goat: " (convert-alt-edn-to-goat)))
 
 
 
